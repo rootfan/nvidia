@@ -264,7 +264,13 @@ static int cpufreq_table_make_from_dt(void)
 			i++;
 		}
 	}
-	ftbl[i].driver_data = 0;
+        ftbl[i].driver_data = 0;
+	ftbl[i].frequency = 2116500;
+  
+        ftbl[++i].driver_data = 0;
+	ftbl[i].frequency = 2218500;
+
+	ftbl[++i].driver_data = 0;
 	ftbl[i].frequency = CPUFREQ_TABLE_END;
 	tftbl->freq_table = ftbl;
 
