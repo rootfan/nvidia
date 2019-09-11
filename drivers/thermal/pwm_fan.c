@@ -281,6 +281,19 @@ static ssize_t fan_step_time_show(struct device *dev,
 	return ret;
 }
 
+
+static ssize_t fan_pwm_rpm_table_store(struct device *dev,
+			struct device_attribute *attr, const char *buf,
+			size_t count)
+{
+struct fan_dev_data *fan_data = dev_get_drvdata(dev);
+char *end;
+int index = simple_strtoul(buf,&end,10),val = strchr(buf,' ') ? simple_strtoul(strchr(buf,' ')+1,&end,10) : -1; 
+if(index < fan_data->active_steps && index >= 0 && val != -1)
+fan_data->fan_pwm[index] = val;
+return count;
+}
+
 static ssize_t fan_pwm_rpm_table_show(struct device *dev,
 			struct device_attribute *attr, char *buf)
 {
@@ -902,9 +915,9 @@ static DEVICE_ATTR(temp_control, S_IWUSR | S_IRUGO,
 static DEVICE_ATTR(step_time, S_IWUSR | S_IRUGO,
 			fan_step_time_show,
 			fan_step_time_store);
-static DEVICE_ATTR(pwm_rpm_table, S_IRUGO,
+static DEVICE_ATTR(pwm_rpm_table, S_IWUSR | S_IRUGO,
 			fan_pwm_rpm_table_show,
-			NULL);
+			fan_pwm_rpm_table_store);
 static DEVICE_ATTR(fan_profile, S_IWUSR | S_IRUGO,
 			fan_profile_show,
 			fan_profile_store);
