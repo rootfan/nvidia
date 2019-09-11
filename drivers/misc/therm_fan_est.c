@@ -547,9 +547,43 @@ static ssize_t set_temps(struct device *dev,
 }
 #endif
 
+
+static ssize_t show_trip_temps(struct device *dev,
+				struct device_attribute *da,
+				char *buf)
+{
+	struct therm_fan_estimator *est = dev_get_drvdata(dev);
+        int index;
+        char tempBuffer[50];
+
+        for(index = 0; index < est->trip_length; ++index) {
+           memset(tempBuffer,0,50);
+           sprintf(tempBuffer,"%d ",est->active_trip_temps[index]);
+           strcat(buf,tempBuffer);
+        }
+
+        buf[strlen(buf) - 1] = '\n';        
+        return strlen(buf);
+}
+
+// send "index value"
+static ssize_t set_trip_temps(struct device *dev,
+				struct device_attribute *da,
+				const char *buf, size_t count)
+{
+        struct therm_fan_estimator *est = dev_get_drvdata(dev);
+        char* end;  
+        int index = simple_strtoul(buf,&end,10),val = strchr(buf,' ') ? simple_strtoul(strchr(buf,' ')+1,&end,10) : -1; 
+        if(index < est->trip_length && index >= 0 && val != -1)
+        est->active_trip_temps[index] = val;
+        return count; 
+} 
+
+
 static struct sensor_device_attribute therm_fan_est_nodes[] = {
 	SENSOR_ATTR(coeff, S_IRUGO | S_IWUSR, show_coeff, set_coeff, 0),
 	SENSOR_ATTR(offset, S_IRUGO | S_IWUSR, show_offset, set_offset, 0),
+        SENSOR_ATTR(trip_temps, S_IRUGO | S_IWUSR,show_trip_temps,set_trip_temps, 0),
 	SENSOR_ATTR(fan_profile, S_IRUGO | S_IWUSR,
 				show_fan_profile, set_fan_profile, 0),
 	SENSOR_ATTR(sleep_mode, S_IRUGO | S_IWUSR,
