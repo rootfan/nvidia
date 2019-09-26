@@ -747,7 +747,7 @@ static int nvhost_pod_init(struct devfreq *df)
 
 	/* store the limits */
 	df->min_freq = podgov->freqlist[0];
-	df->max_freq = podgov->freqlist[podgov->freq_count - 1];
+	df->max_freq = 998400000;
 	podgov->p_freq_request = df->max_freq;
 
 	podgov->freq_avg = 0;
