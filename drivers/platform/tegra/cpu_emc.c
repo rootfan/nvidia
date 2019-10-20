@@ -148,6 +148,7 @@ static u32 *cpufreq_emc_table_get(int *table_size)
 
 	of_node_put(np);
 	*table_size = freqs_num;
+	freqs[freqs_num -1] = 1866000;
 	return freqs;
 
 _out:
