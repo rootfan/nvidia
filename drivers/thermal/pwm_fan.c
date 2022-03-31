@@ -289,8 +289,11 @@ static ssize_t fan_pwm_rpm_table_store(struct device *dev,
 struct fan_dev_data *fan_data = dev_get_drvdata(dev);
 char *end;
 int index = simple_strtoul(buf,&end,10),val = strchr(buf,' ') ? simple_strtoul(strchr(buf,' ')+1,&end,10) : -1; 
+
+mutex_lock(&fan_data->fan_state_lock);
 if(index < fan_data->active_steps && index >= 0 && val != -1)
 fan_data->fan_pwm[index] = val;
+mutex_unlock(&fan_data->fan_state_lock);
 return count;
 }
 
