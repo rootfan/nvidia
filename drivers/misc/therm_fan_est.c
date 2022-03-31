@@ -547,7 +547,6 @@ static ssize_t set_temps(struct device *dev,
 }
 #endif
 
-
 static ssize_t show_trip_temps(struct device *dev,
 				struct device_attribute *da,
 				char *buf)
@@ -574,8 +573,31 @@ static ssize_t set_trip_temps(struct device *dev,
         struct therm_fan_estimator *est = dev_get_drvdata(dev);
         char* end;  
         int index = simple_strtoul(buf,&end,10),val = strchr(buf,' ') ? simple_strtoul(strchr(buf,' ')+1,&end,10) : -1; 
-        if(index < est->trip_length && index >= 0 && val != -1)
-        est->active_trip_temps[index] = val;
+        if(index < est->trip_length && index >= 0 && val != -1) {
+
+	        write_lock(&est->state_lock);
+
+		est->active_trip_temps[index] = val;
+
+	        if(index > 1)
+			est->active_hysteresis[index] = (est->active_trip_temps[index] - est->active_trip_temps[index-1])/2;
+
+		else if (index == 1){
+			est->active_hysteresis[1] = 2000;
+			est->nonsleep_hyst = 2000;
+		}
+
+		else
+			est->active_hysteresis[0] = 0;
+
+	        est->reset_trip_index = 1;
+	        write_unlock(&est->state_lock);
+	        thermal_zone_device_update(est->thz,
+			THERMAL_EVENT_UNSPECIFIED);
+
+	}
+
+
         return count; 
 } 
 
