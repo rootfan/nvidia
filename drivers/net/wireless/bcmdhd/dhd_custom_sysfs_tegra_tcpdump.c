@@ -580,7 +580,7 @@ tegra_sysfs_histogram_tcpdump_store(struct device *dev,
 	} else {
 		maxpkt = -1;
 		err = kstrtoint(buf, 0, &maxpkt);
-		if (maxpkt < 0) {
+		if (err || maxpkt < 0) {
 			pr_err("%s: ignore invalid maxpkt %d\n",
 				__func__, maxpkt);
 			return count;

@@ -85,13 +85,11 @@ static void tegra_net_diag_work_func(struct work_struct *work)
 		s32 chsp;
 		chanspec_t chanspec;
 		uint16 channel;
-		uint16 band;
 		uint16 bw;
 		u32 sb;
 		err = wldev_iovar_getint(net, "chanspec", &chsp);
 		chanspec = wl_chspec_driver_to_host(chsp);
 		channel = chanspec & WL_CHANSPEC_CHAN_MASK;
-		band = chanspec & WL_CHANSPEC_BAND_MASK;
 		switch (chanspec & WL_CHANSPEC_BW_MASK) {
 		case WL_CHANSPEC_BW_80:
 			bw = 80;

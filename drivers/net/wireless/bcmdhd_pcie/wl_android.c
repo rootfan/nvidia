@@ -1432,8 +1432,8 @@ static int wl_android_wbtext(struct net_device *dev, char *command, int total_le
 }
 
 #ifdef PNO_SUPPORT
-#define PNO_PARAM_SIZE 50
-#define VALUE_SIZE 50
+#define PNO_PARAM_SIZE 51
+#define VALUE_SIZE 51
 #define LIMIT_STR_FMT  ("%50s %50s")
 static int
 wls_parse_batching_cmd(struct net_device *dev, char *command, int total_len)

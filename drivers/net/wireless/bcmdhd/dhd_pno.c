@@ -2023,7 +2023,7 @@ int
 dhd_pno_event_handler(dhd_pub_t *dhd, wl_event_msg_t *event, void *event_data)
 {
 	int err = BCME_OK;
-	uint status, event_type, flags, datalen;
+	uint event_type;
 	dhd_pno_status_info_t *_pno_state;
 	NULL_CHECK(dhd, "dhd is NULL", err);
 	NULL_CHECK(dhd->pno_state, "pno_state is NULL", err);
@@ -2034,9 +2034,6 @@ dhd_pno_event_handler(dhd_pub_t *dhd, wl_event_msg_t *event, void *event_data)
 		goto exit;
 	}
 	event_type = ntoh32(event->event_type);
-	flags = ntoh16(event->flags);
-	status = ntoh32(event->status);
-	datalen = ntoh32(event->datalen);
 	DHD_PNO(("%s enter : event_type :%d\n", __FUNCTION__, event_type));
 	switch (event_type) {
 	case WLC_E_PFN_BSSID_NET_FOUND:

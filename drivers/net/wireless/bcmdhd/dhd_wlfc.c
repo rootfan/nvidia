@@ -3446,7 +3446,6 @@ dhd_wlfc_deinit(dhd_pub_t *dhd)
 	athost_wl_status_info_t* wlfc;
 	uint32 tlv = 0;
 	uint32 hostreorder = 0;
-	int ret;
 
 	if (dhd == NULL) {
 		DHD_ERROR(("Error: %s():%d\n", __FUNCTION__, __LINE__));
@@ -3463,9 +3462,8 @@ dhd_wlfc_deinit(dhd_pub_t *dhd)
 	dhd_os_wlfc_unblock(dhd);
 
 	/* query ampdu hostreorder */
-	ret = dhd_iovar(dhd, 0, "ampdu_hostreorder", NULL, 0, (char *)&hostreorder,
+	dhd_iovar(dhd, 0, "ampdu_hostreorder", NULL, 0, (char *)&hostreorder,
 			sizeof(hostreorder), FALSE);
-
 	if (hostreorder) {
 		tlv = WLFC_FLAGS_HOST_RXRERODER_ACTIVE;
 		DHD_ERROR(("%s():%d, maintain HOST RXRERODER flag in tvl\n",
@@ -3473,7 +3471,7 @@ dhd_wlfc_deinit(dhd_pub_t *dhd)
 	}
 
 	/* Disable proptxtstatus signaling for deinit */
-	ret = dhd_iovar(dhd, 0, "tlv", (char *)&tlv, sizeof(tlv), NULL, 0,
+	dhd_iovar(dhd, 0, "tlv", (char *)&tlv, sizeof(tlv), NULL, 0,
 			TRUE);
 
 	dhd_os_wlfc_block(dhd);

@@ -16,7 +16,7 @@
 #include "oztrace.h"
 #include "ozkobject.h"
 
-static ssize_t devices_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t devices_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	int i, count, s;
@@ -81,7 +81,7 @@ u8 oz_str_to_hex(const char *st)
 	return t1;
 }
 
-static ssize_t stop_store(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t stop_store(struct device *dev, struct device_attribute *attr,
 				const char *buf, size_t count)
 {
 	int i;
@@ -107,7 +107,7 @@ static ssize_t stop_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return count;
 }
 
-static ssize_t select_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t select_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	int i;
@@ -124,7 +124,7 @@ static ssize_t select_show(struct kobject *kobj, struct kobj_attribute *attr,
 	return ret;
 }
 
-static ssize_t select_store(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t select_store(struct device *dev, struct device_attribute *attr,
 				const char *buf, size_t count)
 {
 	int i;
@@ -141,7 +141,7 @@ static ssize_t select_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return count;
 }
 
-static ssize_t bind_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t bind_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	char nw_list[OZ_MAX_NW_IF * OZ_MAX_BINDING_LEN] = {0};
@@ -157,7 +157,7 @@ static ssize_t bind_show(struct kobject *kobj, struct kobj_attribute *attr,
 		return ret;
 }
 
-static ssize_t bind_store(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t bind_store(struct device *dev, struct device_attribute *attr,
 				const char *buf, size_t count)
 {
 	char name[OZ_MAX_BINDING_LEN];
@@ -179,7 +179,7 @@ static ssize_t bind_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return count;
 }
 
-static ssize_t mode_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	u8 mode;
@@ -190,7 +190,7 @@ static ssize_t mode_show(struct kobject *kobj, struct kobj_attribute *attr,
 	return ret;
 }
 
-static ssize_t mode_store(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t mode_store(struct device *dev, struct device_attribute *attr,
 				const char *buf, size_t count)
 {
 	u8 new_mode;
@@ -203,7 +203,7 @@ static ssize_t mode_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return count;
 }
 
-static ssize_t debug_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t debug_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	int ret = 0;
@@ -218,7 +218,7 @@ static ssize_t debug_show(struct kobject *kobj, struct kobj_attribute *attr,
 	return ret;
 }
 
-static ssize_t debug_store(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t debug_store(struct device *dev, struct device_attribute *attr,
 				const char *buf, size_t count)
 {
 	u32 new_debug = 0;
@@ -245,7 +245,7 @@ static ssize_t debug_store(struct kobject *kobj, struct kobj_attribute *attr,
 	return count;
 }
 
-static ssize_t fptr_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t fptr_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	int ret;
@@ -255,43 +255,43 @@ static ssize_t fptr_show(struct kobject *kobj, struct kobj_attribute *attr,
 
 }
 
-static ssize_t latency_show(struct kobject *kobj, struct kobj_attribute *attr,
+static ssize_t latency_show(struct device *dev, struct device_attribute *attr,
 				char *buf)
 {
 	return sprintf(buf, "%d\n", oz_get_latency());
 }
 
-static ssize_t max_devices_show(struct kobject *kobj,
-				struct kobj_attribute *attr, char *buf)
+static ssize_t max_devices_show(struct device *dev,
+				struct device_attribute *attr, char *buf)
 {
 	return sprintf(buf, "%d\n", OZ_MAX_PDS);
 }
 
-static struct kobj_attribute devices_attribute =
+static struct device_attribute devices_attribute =
 	__ATTR(devices, 0400, devices_show, NULL);
 
-static struct kobj_attribute stop_attribute =
+static struct device_attribute stop_attribute =
 	__ATTR(stop, 0200, NULL, stop_store);
 
-static struct kobj_attribute select_attribute =
+static struct device_attribute select_attribute =
 	__ATTR(select, 0600, select_show, select_store);
 
-static struct kobj_attribute bind_attribute =
+static struct device_attribute bind_attribute =
 	__ATTR(bind, 0600, bind_show, bind_store);
 
-static struct kobj_attribute mode_attribute =
+static struct device_attribute mode_attribute =
 	__ATTR(mode, 0600, mode_show, mode_store);
 
-static struct kobj_attribute debug_attribute =
+static struct device_attribute debug_attribute =
 	__ATTR(debug, 0600, debug_show, debug_store);
 
-static struct kobj_attribute fptr_attribute =
+static struct device_attribute fptr_attribute =
 	__ATTR(fptr, 0400, fptr_show, NULL);
 
-static struct kobj_attribute latency_attribute =
+static struct device_attribute latency_attribute =
 	__ATTR(latency, 0444, latency_show, NULL);
 
-static struct kobj_attribute max_devices_attribute =
+static struct device_attribute max_devices_attribute =
 	__ATTR(max_devices, 0444, max_devices_show, NULL);
 
 static struct attribute *attrs[] = {

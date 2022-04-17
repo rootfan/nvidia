@@ -3113,7 +3113,7 @@ void
 bcm_mwbmap_audit(struct bcm_mwbmap * mwbmap_hdl)
 {
 	bcm_mwbmap_t * mwbmap_p;
-	uint32 count, free_cnt = 0U, wordix, idmap_ix, bitix, *bitmap_p;
+	uint32 count, __maybe_unused free_cnt = 0U, wordix, idmap_ix, bitix, *bitmap_p;
 
 	mwbmap_p = BCM_MWBMAP_PTR(mwbmap_hdl);
 

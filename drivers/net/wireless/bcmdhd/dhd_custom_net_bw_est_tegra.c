@@ -136,7 +136,6 @@ static void tegra_net_bw_est_pktgen(struct net_device *net,
 	unsigned int iphdr_len;
 	unsigned int data_len;
 	struct sk_buff *skb;
-	unsigned char *data;
 	struct udphdr *udphdr;
 	struct iphdr *iphdr;
 	struct ethhdr *ethhdr;
@@ -178,7 +177,7 @@ static void tegra_net_bw_est_pktgen(struct net_device *net,
 	skb->protocol = htons(ETH_P_IP);
 
 	/* put data */
-	data = skb_put(skb, data_len);
+	skb_put(skb, data_len);
 	memset(skb->data, 0, data_len);
 	memcpy(skb->data, TEGRA_NET_BW_EST_PKTGEN_DATA, strlen(TEGRA_NET_BW_EST_PKTGEN_DATA));
 #if 0

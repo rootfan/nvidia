@@ -786,7 +786,7 @@ void dhd_enable_packet_filter(int value, dhd_pub_t *dhd);
 static int dhd_pm_callback(struct notifier_block *nfb, unsigned long action, void *ignored)
 {
 	int ret = NOTIFY_DONE;
-	bool suspend = FALSE;
+	bool __maybe_unused suspend = FALSE;
 	dhd_info_t *dhdinfo = (dhd_info_t*)container_of(nfb, struct dhd_info, pm_notifier);
 
 	BCM_REFERENCE(dhdinfo);
@@ -2609,7 +2609,7 @@ dhd_sendpkt(dhd_pub_t *dhdp, int ifidx, void *pktbuf)
 	return ret;
 }
 
-int BCMFASTPATH
+netdev_tx_t BCMFASTPATH
 dhd_start_xmit(struct sk_buff *skb, struct net_device *net)
 {
 	int ret;
