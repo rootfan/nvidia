@@ -425,7 +425,7 @@ static void rtl8168_tx_clear(struct rtl8168_private *tp);
 static void rtl8168_rx_clear(struct rtl8168_private *tp);
 
 static int rtl8168_open(struct net_device *dev);
-static int rtl8168_start_xmit(struct sk_buff *skb, struct net_device *dev);
+static netdev_tx_t rtl8168_start_xmit(struct sk_buff *skb, struct net_device *dev);
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,19)
 static irqreturn_t rtl8168_interrupt(int irq, void *dev_instance, struct pt_regs *regs);
 #else
@@ -27402,7 +27402,7 @@ static int msdn_giant_send_check(struct sk_buff *skb)
 }
 #endif
 
-static int
+static netdev_tx_t
 rtl8168_start_xmit(struct sk_buff *skb,
                    struct net_device *dev)
 {
