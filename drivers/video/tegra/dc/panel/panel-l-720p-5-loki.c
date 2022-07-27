@@ -659,7 +659,7 @@ struct tegra_panel_ops dsi_l_720p_5_loki_ops = {
 	.pwm_bl_ops = &dsi_l_720p_5_loki_pwm_bl_ops,
 };
 
-struct tegra_panel __initdata dsi_l_720p_5_loki = {
+struct tegra_panel dsi_l_720p_5_loki = {
 	.init_dc_out = dsi_l_720p_5_loki_dc_out_init,
 	.init_fb_data = dsi_l_720p_5_loki_fb_data_init,
 	.set_disp_device = dsi_l_720p_5_loki_set_disp_device,

@@ -525,7 +525,6 @@ finish:
 	nvmap_init_time += sched_clock() - start;
 	return ret;
 }
-EXPORT_SYMBOL(nvmap_co_setup);
 #else
 int __init nvmap_co_setup(struct reserved_mem *rmem)
 {

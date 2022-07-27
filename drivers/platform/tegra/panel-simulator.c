@@ -521,7 +521,7 @@ static struct platform_device __maybe_unused
 	&panel_sim_bl_device,
 };
 
-static int  __init panel_sim_register_bl_dev(void)
+static int panel_sim_register_bl_dev(void)
 {
 	int err = 0;
 	/* struct device_node *dc1_node = NULL; */
@@ -592,7 +592,7 @@ struct tegra_panel_ops panel_sim_ops = {
 	.pwm_bl_ops = &panel_sim_pwm_bl_ops,
 };
 
-struct tegra_panel __initdata panel_sim = {
+struct tegra_panel panel_sim = {
 	.init_dc_out = panel_sim_dc_out_init,
 	.init_fb_data = panel_sim_fb_data_init,
 	.register_bl_dev = panel_sim_register_bl_dev,
